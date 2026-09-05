@@ -1,0 +1,139 @@
+name: Release Standalone Binaries
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-binaries:
+    name: Build (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux-x64
+            is_windows: false
+
+          - os: macos-14
+            target: darwin-arm64
+            is_windows: false
+
+          - os: windows-latest
+            target: windows-x64
+            is_windows: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages and SEA blob
+        run: |
+          pnpm build
+          pnpm run build:bin
+
+      # Unix Build (Linux & macOS): Generates raw binary, .tar.gz, and .zip
+      - name: Package Unix Binary & Archives
+        if: ${{ !matrix.is_windows }}
+        shell: bash
+        run: |
+          mkdir -p output
+          cp $(which node) droply
+          if [ "${{ runner.os }}" = "macOS" ]; then
+            codesign --remove-signature droply || true
+          fi
+
+          npx postject droply NODE_SEA_BLOB dist/sea-prep.blob \
+            --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2 \
+            --macho-segment-name NODE_SEA
+
+          if [ "${{ runner.os }}" = "macOS" ]; then
+            codesign --sign - droply
+          fi
+
+          chmod +x droply
+
+          # 1. Raw standalone executable
+          cp droply output/droply-${{ matrix.target }}
+
+          # 2. tar.gz compressed archive
+          tar -czvf output/droply-${{ matrix.target }}.tar.gz droply
+
+          # 3. zip archive
+          if command -v zip >/dev/null 2>&1; then
+            zip -r output/droply-${{ matrix.target }}.zip droply
+          else
+            python3 -c "import zipfile; z = zipfile.ZipFile('output/droply-${{ matrix.target }}.zip', 'w', zipfile.ZIP_DEFLATED); z.write('droply')"
+          fi
+
+      # Windows Build: Generates raw .exe and .zip
+      - name: Package Windows Binary & Archive
+        if: ${{ matrix.is_windows }}
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path output
+          Copy-Item (Get-Command node).Source -Destination droply.exe
+          npx postject droply.exe NODE_SEA_BLOB dist/sea-prep.blob `
+            --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
+
+          # 1. Raw standalone executable
+          Copy-Item droply.exe output/droply-windows-x64.exe
+
+          # 2. zip archive
+          Compress-Archive -Path droply.exe -DestinationPath output/droply-windows-x64.zip
+
+      - name: Upload Binary Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts-${{ matrix.target }}
+          path: output/*
+
+  publish-release:
+    name: Publish GitHub Release
+    needs: [build-binaries]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all binary artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-files
+          merge-multiple: true
+
+      - name: Generate Checksums
+        run: |
+          cd release-files
+          sha256sum * > ../SHA256SUMS.txt
+          cat ../SHA256SUMS.txt
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release-files/*
+            SHA256SUMS.txt
+          generate_release_notes: true

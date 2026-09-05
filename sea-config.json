@@ -1,0 +1,5 @@
+{
+  "main": "packages/cli/dist/droply.cjs",
+  "output": "dist/sea-prep.blob",
+  "disableExperimentalSEAWarning": true
+}

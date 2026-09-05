@@ -1,0 +1,19 @@
+services:
+  droply:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: droply:latest
+    container_name: droply-server
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+      - PUBLIC_STUN_SERVERS=stun:stun.l.google.com:19302
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

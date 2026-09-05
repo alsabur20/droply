@@ -1,0 +1,26 @@
+{
+  "name": "droply-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Droply - Zero-knowledge end-to-end encrypted P2P file sharing utility (CLI & Web)",
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "build": "pnpm -r --filter=!@droply/web run build && pnpm --filter @droply/web run build",
+    "test": "pnpm -r --filter=!@droply/web run build && pnpm -r run test",
+    "lint": "pnpm -r run lint",
+    "check": "pnpm -r --filter=!@droply/web run build && pnpm -r run check",
+    "clean": "pnpm -r run clean",
+    "bundle:cli": "pnpm --filter @droply/cli run bundle",
+    "build:bin": "pnpm run bundle:cli && mkdir -p dist && node --experimental-sea-config sea-config.json"
+  },
+  "devDependencies": {
+    "postject": "1.0.0-alpha.6",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "author": "Abdul Sabur <alsabur20@gmail.com>",
+  "license": "MIT"
+}
