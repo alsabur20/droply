@@ -52,38 +52,37 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 text-left relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-150">
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl max-w-md w-full p-6 shadow-2xl space-y-4 text-left relative font-mono">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-full hover:bg-slate-800 transition-colors"
+          className="absolute top-4 right-4 p-1.5 text-zinc-400 hover:text-zinc-900 dark:hover:text-white rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4" />
         </button>
 
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+          <div className="w-10 h-10 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 flex items-center justify-center text-zinc-900 dark:text-zinc-100">
             <Server className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">Server Connection</h3>
-            <p className="text-xs text-slate-400">Signaling & Zero-Knowledge Relay Endpoint</p>
+            <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">Server Connection</h3>
+            <p className="text-xs text-zinc-500">Signaling & Zero-Knowledge Relay Endpoint</p>
           </div>
         </div>
 
-
         {isMixedContent && (
-          <div className="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-300 leading-relaxed flex items-start gap-2">
-            <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-rose-400" />
+          <div className="p-3.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-xs text-rose-600 dark:text-rose-400 leading-relaxed flex items-start gap-2">
+            <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5 text-rose-500" />
             <div>
-              <strong>Mixed Content Block:</strong> Browsers forbid insecure <code className="font-mono bg-rose-950/50 px-1 py-0.5 rounded">ws://</code> connections from an HTTPS page. Please provide a secure <code className="font-mono bg-rose-950/50 px-1 py-0.5 rounded">wss://</code> URL with TLS/SSL.
+              <strong>Mixed Content Block:</strong> Browsers forbid insecure <code className="bg-rose-500/20 px-1 py-0.5 rounded">ws://</code> connections from an HTTPS page. Please provide a secure <code className="bg-rose-500/20 px-1 py-0.5 rounded">wss://</code> URL.
             </div>
           </div>
         )}
 
         <form onSubmit={handleSave} className="space-y-4">
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 block">
+            <label className="text-[11px] font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 block">
                Signaling WebSocket URL
             </label>
             <input
@@ -91,40 +90,40 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
               value={serverUrl}
               onChange={(e) => setServerUrl(e.target.value)}
               placeholder={isHttps ? "e.g. wss://droply-server.onrender.com" : "e.g. ws://localhost:3000"}
-              className="w-full py-2.5 px-3.5 rounded-xl bg-slate-950 border border-slate-800 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 text-white placeholder-slate-600 font-mono text-sm outline-none transition-all"
+              className="w-full py-2.5 px-3.5 rounded-lg bg-zinc-50 dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 focus:border-zinc-500 focus:outline-none text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-600 font-mono text-xs transition-all"
             />
-            <p className="text-[11px] text-slate-500">
+            <p className="text-[11px] text-zinc-500">
               Active endpoint:{' '}
               {effective ? (
-                <code className="text-emerald-400 font-mono">{effective}</code>
+                <code className="text-zinc-900 dark:text-zinc-200 font-semibold">{effective}</code>
               ) : (
-                <span className="text-amber-400 font-medium">None (Transfer disabled until configured)</span>
+                <span className="text-amber-500 font-medium">None (Transfer disabled until configured)</span>
               )}
             </p>
           </div>
 
-          <div className="p-3 rounded-2xl bg-slate-950/50 border border-slate-800 text-[11px] text-slate-400 space-y-1.5">
-            <div className="font-semibold text-slate-300">Quick Setup Options:</div>
-            <div>• <strong>Run locally:</strong> Run <code className="text-slate-200 font-mono">droply serve</code> in terminal, then open <code className="text-slate-200 font-mono">http://localhost:3000</code>.</div>
-            <div>• <strong>Free 24/7 cloud relay:</strong> Deploy the Droply Docker image to Render or Railway for a free <code className="text-slate-200 font-mono">wss://...</code> URL.</div>
+          <div className="p-3 rounded-lg bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-600 dark:text-zinc-400 space-y-1.5">
+            <div className="font-semibold text-zinc-900 dark:text-zinc-300">Quick Setup Options:</div>
+            <div>• <strong>Run locally:</strong> Run <code className="text-zinc-800 dark:text-zinc-200">droply serve</code> in terminal, then open <code className="text-zinc-800 dark:text-zinc-200">http://localhost:3000</code>.</div>
+            <div>• <strong>Free 24/7 cloud relay:</strong> Deploy Droply to Render for a free <code className="text-zinc-800 dark:text-zinc-200">wss://...</code> URL.</div>
           </div>
 
           <div className="flex items-center gap-2 pt-1">
             <button
               type="button"
               onClick={handleReset}
-              className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-xs transition-colors border border-slate-700/60"
+              className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-lg bg-zinc-200/80 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 font-medium text-xs transition-colors border border-zinc-300 dark:border-zinc-700"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              Reset Default
+              Reset
             </button>
             <button
               type="submit"
-              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs transition-all shadow-md shadow-emerald-950/40"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-lg bg-zinc-950 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-zinc-50 dark:text-zinc-950 font-bold text-xs transition-colors shadow-sm"
             >
               {saved ? (
                 <>
-                  <Check className="w-4 h-4 text-white" />
+                  <Check className="w-4 h-4" />
                   Saved!
                 </>
               ) : (

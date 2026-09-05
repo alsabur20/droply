@@ -1,12 +1,66 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242'/><path d='m8 17 4-4 4 4'/><path d='M12 13v9'/></svg>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Droply — P2P Encrypted File Sharing</title>
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Droply — Send files, secured end-to-end</title>
+    <meta name="title" content="Droply — Send files, secured end-to-end" />
+    <meta name="description" content="Fast, private, and encrypted peer-to-peer file transfer between browsers and terminals. End-to-end AES-256-GCM encryption, WebRTC direct connection, and zero cloud storage." />
+    <meta name="keywords" content="file transfer, peer-to-peer, p2p, encrypted file sharing, end-to-end encryption, webrtc, zero knowledge, croc, wormhole, cli file transfer, droply" />
+    <meta name="author" content="Droply" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://droply-n9z0.onrender.com/" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310b981' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242'/><path d='m8 17 4-4 4 4'/><path d='M12 13v9'/></svg>" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://droply-n9z0.onrender.com/" />
+    <meta property="og:site_name" content="Droply" />
+    <meta property="og:title" content="Droply — Send files, secured end-to-end" />
+    <meta property="og:description" content="Fast, private, and encrypted peer-to-peer file transfer between browsers and terminals. End-to-end AES-256-GCM encryption, WebRTC direct connection, and zero cloud storage." />
+    <meta property="og:image" content="https://droply-n9z0.onrender.com/og-image.png" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://droply-n9z0.onrender.com/" />
+    <meta name="twitter:title" content="Droply — Send files, secured end-to-end" />
+    <meta name="twitter:description" content="Fast, private, and encrypted peer-to-peer file transfer between browsers and terminals. End-to-end AES-256-GCM encryption, WebRTC direct connection, and zero cloud storage." />
+    <meta name="twitter:image" content="https://droply-n9z0.onrender.com/og-image.png" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#09090b" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fafafa" />
+
+    <!-- Schema.org JSON-LD Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Droply",
+        "url": "https://droply-n9z0.onrender.com/",
+        "description": "Fast, private, and encrypted peer-to-peer file transfer between browsers and terminals.",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "All",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "End-to-End Encryption with AES-256-GCM",
+          "Zero-Knowledge PAKE Key Derivation",
+          "Direct WebRTC Peer-to-Peer Transfer",
+          "Cross-Platform Terminal CLI Interoperability",
+          "No Registration or Tracking"
+        ]
+      }
+    </script>
   </head>
-  <body class="bg-slate-950 text-slate-100 antialiased">
+  <body class="bg-zinc-950 text-zinc-100 antialiased selection:bg-zinc-700 selection:text-white transition-colors duration-150">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

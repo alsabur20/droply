@@ -11,41 +11,41 @@ interface ManifestModalProps {
 
 export function ManifestModal({ manifest, onAccept, onReject }: ManifestModalProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-150">
+      <div className="bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl max-w-md w-full p-6 shadow-2xl space-y-5 font-mono">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-            <ShieldCheck className="w-6 h-6" />
+          <div className="w-10 h-10 rounded-lg bg-zinc-100 dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 flex items-center justify-center text-zinc-900 dark:text-zinc-100">
+            <ShieldCheck className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">Incoming Transfer</h3>
-            <p className="text-xs text-slate-400">Verified End-to-End Encrypted Session</p>
+            <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">Incoming Transfer</h3>
+            <p className="text-xs text-zinc-500">Verified End-to-End Encrypted Session</p>
           </div>
         </div>
 
-        <div className="bg-slate-950/60 rounded-xl p-4 border border-slate-800/80 space-y-2">
-          <div className="flex justify-between text-xs text-slate-400">
-            <span>Payload Type:</span>
-            <span className="font-semibold text-slate-200 uppercase">{manifest.payloadType}</span>
+        <div className="bg-zinc-50 dark:bg-zinc-950/80 rounded-lg p-4 border border-zinc-200 dark:border-zinc-800 space-y-2 text-xs">
+          <div className="flex justify-between text-zinc-500">
+            <span>Payload:</span>
+            <span className="font-semibold text-zinc-900 dark:text-zinc-100 uppercase">{manifest.payloadType}</span>
           </div>
-          <div className="flex justify-between text-xs text-slate-400">
-            <span>Total Items:</span>
-            <span className="font-semibold text-slate-200">{manifest.files.length} file(s)</span>
+          <div className="flex justify-between text-zinc-500">
+            <span>Items:</span>
+            <span className="font-semibold text-zinc-900 dark:text-zinc-100">{manifest.files.length} file(s)</span>
           </div>
-          <div className="flex justify-between text-xs text-slate-400">
-            <span>Total Size:</span>
-            <span className="font-semibold text-emerald-400">{formatBytes(manifest.totalBytes)}</span>
+          <div className="flex justify-between text-zinc-500">
+            <span>Total size:</span>
+            <span className="font-bold text-zinc-900 dark:text-zinc-100">{formatBytes(manifest.totalBytes)}</span>
           </div>
 
-          <div className="pt-2 border-t border-slate-800/80 max-h-32 overflow-y-auto space-y-1">
+          <div className="pt-2 border-t border-zinc-200 dark:border-zinc-800 max-h-32 overflow-y-auto space-y-1">
             {manifest.files.slice(0, 5).map((f) => (
-              <div key={f.id} className="flex justify-between items-center text-xs py-1 text-slate-300">
+              <div key={f.id} className="flex justify-between items-center text-xs py-0.5 text-zinc-700 dark:text-zinc-300">
                 <span className="truncate max-w-[220px]">{f.path}</span>
-                <span className="text-slate-500">{formatBytes(f.size)}</span>
+                <span className="text-zinc-500">{formatBytes(f.size)}</span>
               </div>
             ))}
             {manifest.files.length > 5 && (
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-zinc-500 pt-0.5">
                 + {manifest.files.length - 5} more file(s)
               </p>
             )}
@@ -55,17 +55,17 @@ export function ManifestModal({ manifest, onAccept, onReject }: ManifestModalPro
         <div className="flex items-center gap-3">
           <button
             onClick={onReject}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-sm transition-all border border-slate-700/60"
+            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-zinc-200/80 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 font-medium text-xs transition-colors border border-zinc-300 dark:border-zinc-700"
           >
-            <XCircle className="w-4 h-4 text-rose-400" />
+            <XCircle className="w-3.5 h-3.5" />
             Decline
           </button>
           <button
             onClick={onAccept}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-sm transition-all shadow-lg shadow-emerald-950/40"
+            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-zinc-950 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-zinc-50 dark:text-zinc-950 font-bold text-xs transition-colors shadow-sm"
           >
-            <FileCheck className="w-4 h-4" />
-            Accept & Download
+            <FileCheck className="w-3.5 h-3.5" />
+            Accept & Receive
           </button>
         </div>
       </div>

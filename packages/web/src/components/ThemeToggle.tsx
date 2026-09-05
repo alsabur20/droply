@@ -28,11 +28,11 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 hover:text-white transition-all border border-slate-700/50 shadow-sm"
+      className="w-9 h-9 flex items-center justify-center rounded-lg bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white border border-zinc-300 dark:border-zinc-800 transition-colors"
       title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
       aria-label="Toggle Theme"
     >
-      {isDark ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-indigo-400" />}
+      {isDark ? <Sun className="w-4 h-4 text-zinc-200" /> : <Moon className="w-4 h-4 text-zinc-700" />}
     </button>
   );
 }

@@ -21,37 +21,37 @@ export function ProgressBar({ metrics, statusMessage }: ProgressBarProps) {
   };
 
   return (
-    <div className="w-full bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-      <div className="flex items-center justify-between text-sm">
-        <span className="font-semibold text-white">
+    <div className="w-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 rounded-xl p-5 shadow-sm space-y-3 font-mono">
+      <div className="flex items-center justify-between text-xs">
+        <span className="font-bold text-zinc-900 dark:text-zinc-100 truncate pr-2">
           {statusMessage || 'Transferring...'}
         </span>
-        <span className="text-emerald-400 font-mono font-bold">
+        <span className="text-zinc-950 dark:text-zinc-50 font-bold shrink-0">
           {metrics.progress.toFixed(1)}%
         </span>
       </div>
 
       {/* Progress Track */}
-      <div className="w-full h-3 bg-slate-950 rounded-full overflow-hidden border border-slate-800/80 p-0.5">
+      <div className="w-full h-2.5 bg-zinc-200 dark:bg-zinc-950 rounded-full overflow-hidden border border-zinc-300 dark:border-zinc-800">
         <div
-          className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-300 shadow-sm"
+          className="h-full bg-zinc-900 dark:bg-zinc-100 rounded-full transition-all duration-200"
           style={{ width: `${Math.min(100, Math.max(0, metrics.progress))}%` }}
         />
       </div>
 
       {/* Metrics Row */}
-      <div className="grid grid-cols-3 gap-2 pt-2 text-xs border-t border-slate-800/50">
-        <div className="flex items-center gap-1.5 text-slate-400">
-          <Activity className="w-3.5 h-3.5 text-emerald-400" />
+      <div className="grid grid-cols-3 gap-2 pt-2 text-[11px] border-t border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400">
+        <div className="flex items-center gap-1.5">
+          <Activity className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
           <span>{formatSpeed(metrics.speed)}</span>
         </div>
 
-        <div className="flex items-center justify-center gap-1.5 text-slate-400">
-          <Clock className="w-3.5 h-3.5 text-cyan-400" />
+        <div className="flex items-center justify-center gap-1.5">
+          <Clock className="w-3.5 h-3.5 text-zinc-700 dark:text-zinc-300" />
           <span>ETA: {formatEta(metrics.eta)}</span>
         </div>
 
-        <div className="text-right text-slate-400 truncate">
+        <div className="text-right truncate font-medium text-zinc-700 dark:text-zinc-300">
           {formatBytes(metrics.bytesTransferred)} / {formatBytes(metrics.totalBytes)}
         </div>
       </div>
