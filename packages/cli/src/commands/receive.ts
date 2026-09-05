@@ -13,7 +13,7 @@ export interface ReceiveOptions {
 }
 
 export async function receiveCommand(inputCode?: string, options: ReceiveOptions = {}) {
-  const serverUrl = options.server || process.env.DROPLY_SERVER || process.env.DIRECT_SERVER || 'ws://127.0.0.1:3000';
+  const serverUrl = options.server || process.env.DROPLY_SERVER || process.env.DIRECT_SERVER || 'wss://droply-n9z0.onrender.com';
   const outputDir = path.resolve(options.outputDir || process.cwd());
 
   let code = inputCode?.trim();

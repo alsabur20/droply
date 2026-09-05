@@ -5,149 +5,317 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7+-3178C6.svg)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-339933.svg)](https://nodejs.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)](Dockerfile)
+[![Render](https://img.shields.io/badge/Render-Deployed-46E3B7.svg)](https://render.com)
 
-**Droply** is a modern, blazing-fast file and directory transfer utility designed for seamless peer-to-peer sharing between **terminals** and **web browsers**.
+**Droply** is a modern, blazing-fast file and directory transfer tool built for effortless peer-to-peer sharing between **terminals**, **browsers**, and **mobile devices**.
+
+[Live Web App](https://droply-n9z0.onrender.com) • [Releases & Binaries](https://github.com/alsabur20/droply/releases) • [Architecture Docs](docs/ARCHITECTURE.md)
+
 </div>
+
+---
+
+## 📑 Table of Contents
+
+- [Features](#-features)
+- [Installation & Setup](#-installation--setup)
+  - [1. Standalone Native Binaries (No Node.js Required)](#1-standalone-native-binaries-recommended)
+  - [2. Using npm / npx](#2-using-npm--npx)
+  - [3. Using Docker](#3-using-docker)
+  - [4. Build from Source](#4-build-from-source)
+- [Usage Guide](#-usage-guide)
+  - [Sending Files & Folders](#sending-files--folders)
+  - [Receiving Files](#receiving-files)
+  - [Sending Secret Notes](#sending-secret-notes)
+- [Self-Hosting & Deployment](#-self-hosting--deployment)
+  - [Deploy on Render (Full Unified App)](#deploy-on-render-full-unified-app)
+  - [Self-Host with Docker Compose](#self-host-with-docker-compose)
+- [How to Publish to npm](#-how-to-publish-to-npm)
+- [CLI Command Reference](#-cli-command-reference)
+- [Security & Architecture](#-security--architecture)
+- [License](#-license)
 
 ---
 
 ## ✨ Features
 
-- 🔒 **Zero-Knowledge E2EE**: Ephemeral ECDH (P-256) key exchange authenticated via pairing codes, AES-256-GCM chunk encryption, and SHA-256 integrity verification.
-- 🌐 **Full Interoperability**: CLI-to-CLI, Web-to-Web, and cross-platform CLI-to-Web direct transfers.
-- 🚀 **High-Throughput Streaming**: 64 KB streaming chunks with backpressure and low memory footprint, capable of streaming gigabyte-scale files without RAM spikes.
-- 🗂️ **Folder & Batch Transfers**: Preserves full relative directory structures during directory transfers.
-- 📱 **Instant Pairing**: Human-friendly pairing codes (e.g. `4-cosmic-falcon`) or 6-digit numeric PINs with clickable URLs and terminal/web QR codes for mobile scanning.
-- 🛡️ **Safe Consent Mode**: Interactive preview of file manifest (names, types, sizes) before downloading to prevent unsolicited files.
-- 🔄 **Resilient Connectivity**: Direct WebRTC P2P (via public STUN) with automatic, transparent end-to-end encrypted relay fallback through the signaling server.
-- 🖥️ **Standalone Native Binaries & Zips**: Pre-compiled single-file executables and `.zip` / `.tar.gz` archives for Linux, macOS (Apple Silicon), and Windows with zero runtime dependencies.
-- ☁️ **Full-App Cloud Ready**: Deploy as a single unified service on Render, Railway, Fly.io, or VPS with automatic SSL and zero configuration.
-- 🐳 **Self-Host Ready**: Bundled single-process signaling and static Web UI server with 1-command Docker Compose deployment.
+- 🔒 **Zero-Knowledge E2EE**: Ephemeral ECDH (P-256) key exchange authenticated by memorable pairing codes. AES-256-GCM chunk encryption and SHA-256 integrity verification.
+- 🌐 **Full Interoperability**: Send and receive across Terminal-to-Terminal, Browser-to-Browser, and Terminal-to-Browser.
+- 🚀 **High-Throughput Streaming**: 64 KB binary streaming chunks with backpressure. Transfers gigabyte-scale files without RAM exhaustion.
+- 🗂️ **Folder & Batch Transfers**: Preserves full relative directory trees during recursive directory transfers.
+- 📱 **Instant Pairing**: Human-friendly passphrases (e.g. `4-cosmic-falcon`) or 6-digit numeric PINs with clickable web links and terminal/web QR codes for mobile cameras.
+- 🛡️ **Safe Consent Mode**: Recipients preview incoming manifests (file names, sizes, counts) before downloading.
+- 🔄 **Resilient Relay Fallback**: Direct WebRTC P2P when reachable, with automatic zero-knowledge encrypted fallback through the signaling server if symmetric NATs/firewalls block direct UDP.
 
 ---
 
-## 📦 Quick Start
+## 📥 Installation & Setup
 
-### 1. Download Standalone Native Binaries & Zips (No Node.js Required)
-Pre-compiled standalone executables and `.zip` archives are published on every release under the GitHub Releases section:
+Choose your preferred way to install and run Droply:
 
-| Platform / Architecture | Direct Binary Executable | Compressed Zip Archive | Tarball Archive |
+### 1. Standalone Native Binaries (Recommended)
+Pre-compiled single-file executables with **zero runtime dependencies** (no Node.js or npm required) are available on [GitHub Releases](https://github.com/alsabur20/droply/releases):
+
+| Platform | Architecture | Binary Download | Archive |
 | :--- | :--- | :--- | :--- |
-| **Linux (x64)** | `droply-linux-x64` | `droply-linux-x64.zip` | `droply-linux-x64.tar.gz` |
-| **macOS Apple Silicon (M1/M2/M3/M4)** | `droply-darwin-arm64` | `droply-darwin-arm64.zip` | `droply-darwin-arm64.tar.gz` |
-| **Windows (x64)** | `droply-windows-x64.exe` | `droply-windows-x64.zip` | — |
+| **Linux** | x86_64 / x64 | [`droply-linux-x64`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64.zip) / [`.tar.gz`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64.tar.gz) |
+| **macOS** | Apple Silicon (M1/M2/M3/M4) | [`droply-macos-arm64`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-arm64) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-arm64.zip) / [`.tar.gz`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-arm64.tar.gz) |
+| **macOS** | Intel (x64) | [`droply-macos-x64`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-x64) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-x64.zip) |
+| **Windows** | x64 | [`droply-windows-x64.exe`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-windows-x64.exe) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-windows-x64.zip) |
 
+#### Quick Install (Linux / macOS):
 ```bash
-# Option A: Download raw executable directly via curl (Linux / macOS)
-chmod +x droply && sudo mv droply /usr/local/bin/
+# Download binary directly to /usr/local/bin
+sudo curl -Lo /usr/local/bin/droply https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64
+sudo chmod +x /usr/local/bin/droply
 
-# Option B: Download and extract .zip archive
-unzip droply-linux-x64.zip
-chmod +x droply && sudo mv droply /usr/local/bin/
+# Verify installation
+droply --help
 ```
 
-### 2. Using the CLI with Node / npx
+---
+
+### 2. Using npm / npx
+
+#### Run instantly with `npx` (No permanent installation):
+```bash
+# Send a file
+npx droply send document.pdf
+
+# Receive files
+npx droply receive 4-cosmic-falcon
+```
+
+#### Install globally via `npm`:
+```bash
+npm install -g droply
+# or
+pnpm add -g droply
+```
+
+---
+
+### 3. Using Docker
+
+You can use Docker both to run CLI transfers and to host your private server.
+
+#### A. Run CLI transfers via Docker:
+```bash
+# Send a file from your current directory
+docker run --rm -it -v "$(pwd):/data" -w /data droply send /data/report.pdf
+
+# Receive files into your current directory
+docker run --rm -it -v "$(pwd):/data" -w /data droply receive 4-cosmic-falcon
+```
+
+#### B. Run the unified Server & Web UI container:
+```bash
+# Build the Docker image locally
+docker build -t droply .
+
+# Run the container (binds Web UI & WebSocket server to port 3000)
+docker run -d --name droply-server -p 3000:3000 droply
+```
+Access the web app at `http://localhost:3000`.
+
+---
+
+### 4. Build from Source
 
 ```bash
-# Send a file or directory
-droply send ./document.pdf ./my-folder
+# Clone repository
+git clone https://github.com/alsabur20/droply.git
+cd droply
 
-# Send with 6-digit PIN mode instead of words
-droply send file.zip --pin
+# Install workspace dependencies
+pnpm install
 
-# Receive files using the pairing code
+# Build all packages (protocol, server, cli, web)
+pnpm build
+
+# Link CLI globally for development
+pnpm --filter droply exec chmod +x dist/bin/droply.js
+```
+
+---
+
+## 🚀 Usage Guide
+
+### Sending Files & Folders
+
+#### From the CLI:
+```bash
+# Send a single file
+droply send ./presentation.pdf
+
+# Send multiple files and folders recursively
+droply send ./image.png ./dataset/ ./notes.txt
+
+# Send with a 6-digit numeric PIN instead of words (e.g. 482-195)
+droply send ./archive.tar.gz --pin
+
+# Connect to a custom or private relay server
+droply send ./document.pdf --server wss://my-relay.example.com
+```
+
+#### From the Web Browser:
+1. Open [https://droply-n9z0.onrender.com](https://droply-n9z0.onrender.com) (or your self-hosted instance).
+2. Drag & drop files or folders into the Send dropzone.
+3. Click **Send file**.
+4. Share the generated code (or have the recipient scan the QR code).
+
+---
+
+### Receiving Files
+
+#### From the CLI:
+```bash
+# Interactive receive (prompts for pairing code)
+droply receive
+
+# Receive directly with pairing code
 droply receive 4-cosmic-falcon
 
-# Auto-accept transfer and save to a specific directory
-droply receive 4-cosmic-falcon --yes --output-dir ./downloads
+# Auto-accept transfer and save to a specific folder
+droply receive 4-cosmic-falcon --yes --output-dir ~/Downloads
 ```
 
-### 3. Full App Deployment (Render / Cloud / Docker)
+#### From the Web Browser:
+1. Open the Web UI and navigate to the **Receive** panel.
+2. Enter the pairing code (e.g. `4-cosmic-falcon`).
+3. Review the incoming manifest modal and click **Accept & Receive**. Files download automatically upon integrity verification.
 
-#### Option A: Deploy on Render as a Web Service (Free Tier)
-Deploy the full unified app (Web UI + Signaling Server) to [Render](https://render.com) in 1 minute:
-1. Log in to [Render](https://render.com) and click **New +** > **Web Service**.
-2. Connect your GitHub repository (`alsabur20/droply`).
-3. Select **Docker** as the Runtime and choose the **Free** plan.
-4. Click **Create Web Service**.
+---
 
-Your app is immediately live at `https://<service-name>.onrender.com` with free automatic SSL, hosting both the Web UI and the WebSocket relay on the exact same domain with zero configuration.
+### Sending Secret Notes
 
-#### Option B: Self-Host with Docker Compose
-Spin up your private signaling and Web UI server locally or on a VPS:
+You can transfer sensitive text snippets (passwords, tokens, SSH keys) securely end-to-end:
+- **Web**: Click **Text Snippet** on the main panel, paste your text, and click **Send Secret Note**.
+- **CLI**: The recipient receives a verified text file `message.txt`.
+
+---
+
+## ☁️ Self-Hosting & Deployment
+
+### Deploy on Render (Full Unified App)
+
+Droply runs both the **React Web UI** and the **WebSocket Signaling / Zero-Knowledge Relay** simultaneously inside a single Docker container on port 3000.
+
+1. Go to [Render Dashboard](https://dashboard.render.com/) and click **New +** > **Web Service**.
+2. Connect your repository: `alsabur20/droply`.
+3. Select **Docker** as the Runtime and choose the **Free** instance type.
+4. Click **Deploy Web Service**.
+
+> **Automatic SSL & Zero Config:**
+> Render provisions an automated HTTPS/WSS URL (`https://<service-name>.onrender.com`). Both the Web UI and WebSocket relay work instantly without setting any environment variables.
+
+---
+
+### Self-Host with Docker Compose
+
+To deploy Droply on your own VPS or local server:
+
 ```bash
 docker compose up -d
 ```
-Open `http://localhost:3000` in your browser. The Web UI and signaling engine run simultaneously on the same port!
+
+The service is available at `http://localhost:3000`.
+
+To expose it to the internet with your own domain, point your reverse proxy (Nginx, Caddy, or Traefik) to port 3000 with WebSocket upgrading enabled.
+
+---
+
+## 📦 How to Publish to npm
+
+Droply CLI is configured as a standalone, zero-dependency package ready for publishing to npm:
+
+### Step 1: Check Package Name Availability
+If `droply` is already registered on npmjs.com, you can either:
+- Use your scoped account: `@alsabur20/droply` (recommended)
+- Or an available package name: `droply-cli`
+
+To change the name, update `"name"` in [`packages/cli/package.json`](packages/cli/package.json).
+
+### Step 2: Log in to npm
+```bash
+npm login
+```
+
+### Step 3: Build & Publish
+```bash
+# From repository root, build all packages
+pnpm build
+
+# Navigate to the CLI package and publish
+cd packages/cli
+npm publish --access public
+```
+
+Once published, anyone can immediately run:
+```bash
+npx droply send <file>
+# or
+npm install -g droply
+```
 
 ---
 
 ## 💻 CLI Command Reference
 
 ### `droply send <targets...>`
-Send files or directories to a peer.
-
 | Option | Description | Default |
 | :--- | :--- | :--- |
-| `-s, --server <url>` | Custom signaling server WebSocket URL | `ws://127.0.0.1:3000` |
-| `--pin` | Generate a 6-digit numeric PIN (e.g. `492-108`) | Word phrase |
-| `--no-qr` | Disable terminal QR code rendering | `false` |
-| `--web-url <url>` | Custom base URL for web links | Server HTTP URL |
+| `-s, --server <url>` | Custom signaling WebSocket URL | `wss://droply-n9z0.onrender.com` |
+| `--pin` | Generate 6-digit numeric PIN instead of words | Word phrase |
+| `--no-qr` | Disable terminal QR code display | `false` |
+| `--web-url <url>` | Custom web client base URL | Live web URL |
 
 ### `droply receive [code]`
-Receive incoming files from a peer.
-
 | Option | Description | Default |
 | :--- | :--- | :--- |
-| `-s, --server <url>` | Custom signaling server WebSocket URL | `ws://127.0.0.1:3000` |
+| `-s, --server <url>` | Custom signaling WebSocket URL | `wss://droply-n9z0.onrender.com` |
 | `-o, --output-dir <dir>` | Destination folder for received files | `.` (Current dir) |
 | `-y, --yes` | Auto-accept transfer without confirmation prompt | `false` |
 
 ### `droply serve`
-Start an embedded local signaling and static Web UI server.
-
 | Option | Description | Default |
 | :--- | :--- | :--- |
 | `-p, --port <port>` | Port to bind to | `3000` |
-| `-h, --host <host>` | Host interface to bind to | `0.0.0.0` |
-| `--static-dir <dir>` | Path to built Web UI assets | Embedded dist |
+| `-h, --host <host>` | Host address to bind to | `0.0.0.0` |
+| `--static-dir <dir>` | Path to built static Web UI directory | Embedded dist |
 
 ---
 
-## 🏗️ Repository Architecture
+## 🛡️ Security & Architecture
 
-The project is managed as a `pnpm` monorepo:
-
-| Package | Description |
-| :--- | :--- |
-| [`@droply/protocol`](./packages/protocol) | Shared cryptographic primitives (Web Crypto ECDH, HKDF, AES-256-GCM), wire protocol schemas, and chunk streamer. |
-| [`@droply/server`](./packages/server) | WebSocket signaling server, ephemeral room manager, zero-knowledge relay, and HTTP static file server. |
-| [`@droply/cli`](./packages/cli) | Interactive terminal tool (`droply send`, `receive`, `serve`), terminal QR, and progress bar. |
-| [`@droply/web`](./packages/web) | Modern React 18 + Vite + Tailwind CSS web application with dark/light themes, drag-and-drop, and QR pairing. |
-
-- Detailed architectural specifications: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
-- Cryptographic security model & threat analysis: [docs/SECURITY.md](docs/SECURITY.md)
-
----
-
-## 🧪 Development & Testing
-
-```bash
-# Install dependencies
-pnpm install
-
-# Build all packages
-pnpm build
-
-# Run unit and integration tests
-pnpm test
-
-# Type-check workspace
-pnpm check
-
-# Build standalone SEA binary blob
-pnpm run build:bin
 ```
+[ Sender (Web / CLI) ]
+          |
+          | 1. Ephemeral ECDH (P-256) Key Exchange
+          |    + Pairing Code Salt (SPAKE2 / PBKDF2)
+          v
+[ Zero-Knowledge Session Key (AES-256-GCM) ]
+          |
+   +------+--------------------------------+
+   | (Direct UDP reachable)                | (Firewall / Symmetric NAT)
+   v                                       v
+[ WebRTC P2P DataChannel ]        [ Signaling & Relay Server ]
+   (Direct DTLS/SCTP)             (Ciphertext passthrough only;
+                                   Zero knowledge of keys or contents)
+   +---------------------------------------+
+          |
+          v
+[ Recipient (Web / CLI) ] (SHA-256 Verified)
+```
+
+1. **Zero-Knowledge Principle**: The signaling server only receives encrypted chunks. It cannot derive keys, view payloads, or inspect file metadata.
+2. **Encrypted in Chunks**: Files stream in 64 KB authenticated chunks (`AES-256-GCM`) with independent IVs and chunk counters.
+3. **Integrity Guaranteed**: Every file includes a SHA-256 digest computed before encryption and verified after decryption.
+4. **Ephemerality**: Rooms and pairing codes expire immediately after transfer or after 15 minutes of inactivity. No files are ever saved to disk on any intermediate server.
+
+For detailed security analyses, see [docs/SECURITY.md](docs/SECURITY.md).
 
 ---
 

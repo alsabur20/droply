@@ -1,15 +1,20 @@
 {
-  "name": "@droply/cli",
+  "name": "droply",
   "version": "1.0.0",
-  "private": true,
-  "description": "Interactive CLI for Droply P2P transfers",
+  "description": "Droply — Zero-Knowledge, End-to-End Encrypted P2P File Transfer CLI",
   "bin": {
     "droply": "./dist/bin/droply.js"
   },
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "build": "tsc && chmod +x dist/bin/droply.js",
+    "build": "tsc && esbuild bin/droply.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/bin/droply.js --external:ws --external:cli-progress --external:commander --external:picocolors --external:qrcode-terminal && chmod +x dist/bin/droply.js",
     "test": "vitest run",
     "check": "tsc --noEmit",
     "clean": "rm -rf dist",

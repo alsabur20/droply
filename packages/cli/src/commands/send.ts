@@ -20,8 +20,8 @@ export interface SendOptions {
 }
 
 export async function sendCommand(targets: string[], options: SendOptions = {}) {
-  const serverUrl = options.server || process.env.DROPLY_SERVER || process.env.DIRECT_SERVER || 'ws://127.0.0.1:3000';
-  const webBaseUrl = options.webUrl || process.env.DROPLY_WEB_URL || process.env.DIRECT_WEB_URL || serverUrl.replace(/^ws/, 'http');
+  const serverUrl = options.server || process.env.DROPLY_SERVER || process.env.DIRECT_SERVER || 'wss://droply-n9z0.onrender.com';
+  const webBaseUrl = options.webUrl || process.env.DROPLY_WEB_URL || process.env.DIRECT_WEB_URL || (serverUrl.includes('127.0.0.1') || serverUrl.includes('localhost') ? 'http://localhost:3000' : 'https://droply-n9z0.onrender.com');
 
   const filesToTransfer: Array<{ id: string; fullPath: string; relativePath: string }> = [];
 
