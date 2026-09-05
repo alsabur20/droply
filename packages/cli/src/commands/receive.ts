@@ -10,7 +10,6 @@ export interface ReceiveOptions {
   server?: string;
   outputDir?: string;
   yes?: boolean;
-  stdout?: boolean;
 }
 
 export async function receiveCommand(inputCode?: string, options: ReceiveOptions = {}) {
@@ -41,13 +40,11 @@ export async function receiveCommand(inputCode?: string, options: ReceiveOptions
 
   const client = new DroplyClient(serverUrl, code, 'receiver', {
     onStatus: (status) => {
-      if (!options.stdout) {
-        console.log(pc.gray(`• ${status}`));
-      }
+      console.log(pc.gray(`• ${status}`));
     },
     onManifestReceived: async (manifest) => {
       receivedManifest = manifest;
-      if (options.stdout || options.yes || !process.stdin.isTTY) {
+      if (options.yes || !process.stdin.isTTY) {
         return true;
       }
 
@@ -75,7 +72,7 @@ export async function receiveCommand(inputCode?: string, options: ReceiveOptions
       return answer === '' || answer === 'y' || answer === 'yes';
     },
     onProgress: (bytes, total, speed, eta) => {
-      if (!options.stdout && process.stdout.isTTY) {
+      if (process.stdout.isTTY) {
         if (!progressBar) {
           progressBar = createProgressBar('Receiving', total);
         }
@@ -84,10 +81,8 @@ export async function receiveCommand(inputCode?: string, options: ReceiveOptions
     },
     onComplete: () => {
       progressBar?.stop();
-      if (!options.stdout) {
-        const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-        console.log('\n' + pc.bold(pc.green(`✔ Download complete! Saved to ${outputDir} in ${elapsed}s.`)));
-      }
+      const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+      console.log('\n' + pc.bold(pc.green(`✔ Download complete! Saved to ${outputDir} in ${elapsed}s.`)));
       client.close();
       process.exit(0);
     },
@@ -103,11 +98,6 @@ export async function receiveCommand(inputCode?: string, options: ReceiveOptions
   await client.performHandshake();
 
   await client.receivePayload(async (fileId, relativePath, data) => {
-    if (options.stdout) {
-      process.stdout.write(data);
-      return;
-    }
-
     const targetPath = path.join(outputDir, relativePath);
     fs.mkdirSync(path.dirname(targetPath), { recursive: true });
     fs.writeFileSync(targetPath, data);

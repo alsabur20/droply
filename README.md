@@ -20,7 +20,6 @@
 - 📱 **Instant Pairing**: Human-friendly pairing codes (e.g. `4-cosmic-falcon`) or 6-digit numeric PINs with clickable URLs and terminal/web QR codes for mobile scanning.
 - 🛡️ **Safe Consent Mode**: Interactive preview of file manifest (names, types, sizes) before downloading to prevent unsolicited files.
 - 🔄 **Resilient Connectivity**: Direct WebRTC P2P (via public STUN) with automatic, transparent end-to-end encrypted relay fallback through the signaling server.
-- 🚰 **UNIX Pipe Support**: Stream standard input or output directly across peers (`cat database.sql | droply send`).
 - 🖥️ **Standalone Native Binaries & Zips**: Pre-compiled single-file executables and `.zip` / `.tar.gz` archives for Linux, macOS (Apple Silicon), and Windows with zero runtime dependencies.
 - 📄 **GitHub Pages Ready**: Static React Web UI can be hosted directly on GitHub Pages with configurable signaling endpoints.
 - 🐳 **Self-Host Ready**: Bundled single-process signaling and static Web UI server with 1-command Docker Compose deployment.
@@ -63,17 +62,7 @@ droply receive 4-cosmic-falcon
 droply receive 4-cosmic-falcon --yes --output-dir ./downloads
 ```
 
-### 3. UNIX Pipe Support
-
-```bash
-# Sender: pipe directly from standard input
-cat database-dump.sql | droply send
-
-# Receiver: pipe directly to standard output or a file
-droply receive 4-cosmic-falcon --stdout > database-dump.sql
-```
-
-### 4. Self-Hosting with Docker Compose
+### 3. Self-Hosting with Docker Compose
 
 Spin up your private signaling and Web UI server in seconds:
 
@@ -87,8 +76,8 @@ Open `http://localhost:3000` in your browser. The Web UI and signaling engine ar
 
 ## 💻 CLI Command Reference
 
-### `droply send [targets...]`
-Send files, directories, or standard input to a peer.
+### `droply send <targets...>`
+Send files or directories to a peer.
 
 | Option | Description | Default |
 | :--- | :--- | :--- |
@@ -105,7 +94,6 @@ Receive incoming files from a peer.
 | `-s, --server <url>` | Custom signaling server WebSocket URL | `ws://127.0.0.1:3000` |
 | `-o, --output-dir <dir>` | Destination folder for received files | `.` (Current dir) |
 | `-y, --yes` | Auto-accept transfer without confirmation prompt | `false` |
-| `--stdout` | Pipe received file contents directly to stdout | `false` |
 
 ### `droply serve`
 Start an embedded local signaling and static Web UI server.
@@ -126,7 +114,7 @@ The project is managed as a `pnpm` monorepo:
 | :--- | :--- |
 | [`@droply/protocol`](./packages/protocol) | Shared cryptographic primitives (Web Crypto ECDH, HKDF, AES-256-GCM), wire protocol schemas, and chunk streamer. |
 | [`@droply/server`](./packages/server) | WebSocket signaling server, ephemeral room manager, zero-knowledge relay, and HTTP static file server. |
-| [`@droply/cli`](./packages/cli) | Interactive terminal tool (`droply send`, `receive`, `serve`), terminal QR, progress bar, and piping engine. |
+| [`@droply/cli`](./packages/cli) | Interactive terminal tool (`droply send`, `receive`, `serve`), terminal QR, and progress bar. |
 | [`@droply/web`](./packages/web) | Modern React 18 + Vite + Tailwind CSS web application with dark/light themes, drag-and-drop, and QR pairing. |
 
 - Detailed architectural specifications: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)

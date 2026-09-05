@@ -13,8 +13,8 @@ program
   .version('1.0.0');
 
 program
-  .command('send [targets...]')
-  .description('Send files, directories, or piped stdin directly to a peer')
+  .command('send <targets...>')
+  .description('Send files or directories directly to a peer')
   .option('-s, --server <url>', 'Signaling server WebSocket URL')
   .option('--pin', 'Use a 6-digit numeric PIN instead of a word phrase')
   .option('--no-qr', 'Disable terminal QR code display')
@@ -32,7 +32,6 @@ program
   .option('-s, --server <url>', 'Signaling server WebSocket URL')
   .option('-o, --output-dir <path>', 'Destination directory to save received files', '.')
   .option('-y, --yes', 'Auto-accept transfer without confirmation prompt')
-  .option('--stdout', 'Pipe file contents directly to stdout')
   .action((code, options) => {
     receiveCommand(code, options).catch((err) => {
       console.error(err);
