@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: droply-server
+    runtime: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /healthz
+    envVars:
+      - key: PORT
+        value: 3000

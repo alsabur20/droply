@@ -43,6 +43,8 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Protocol & Web Client
+        env:
+          VITE_SIGNALING_URL: ${{ vars.SIGNALING_URL || secrets.SIGNALING_URL || '' }}
         run: |
           pnpm --filter @droply/protocol build
           pnpm --filter @droply/web build

@@ -13,7 +13,7 @@ import {
   Lock,
   Settings
 } from 'lucide-react';
-import { useTransfer } from './hooks/useTransfer.js';
+import { useTransfer, getEffectiveSignalingUrl } from './hooks/useTransfer.js';
 import { Dropzone } from './components/Dropzone.js';
 import { ManifestModal } from './components/ManifestModal.js';
 import { ProgressBar } from './components/ProgressBar.js';
@@ -29,6 +29,10 @@ export function App() {
   const [showQr, setShowQr] = useState<boolean>(false);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [copiedCode, setCopiedCode] = useState<boolean>(false);
+
+  const isGithubPages = typeof window !== 'undefined' && window.location.hostname.includes('github.io');
+  const effectiveServer = getEffectiveSignalingUrl();
+  const needsServerConfig = isGithubPages && !effectiveServer;
 
   const {
     status,
@@ -110,6 +114,19 @@ export function App() {
           </div>
         </div>
       </header>
+
+      {/* GitHub Pages Setup Banner */}
+      {needsServerConfig && (
+        <div className="bg-amber-500/10 border-b border-amber-500/20 px-4 py-2 text-center text-xs text-amber-300 flex items-center justify-center gap-2">
+          <span>⚡ GitHub Pages is static: connect your signaling relay to enable transfers.</span>
+          <button
+            onClick={() => setShowSettings(true)}
+            className="underline font-semibold hover:text-white transition-colors"
+          >
+            Configure Server
+          </button>
+        </div>
+      )}
 
       {/* Main Container */}
       <main className="flex-1 max-w-2xl w-full mx-auto px-4 py-8 flex flex-col items-center justify-center">

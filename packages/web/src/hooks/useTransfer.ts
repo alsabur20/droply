@@ -39,22 +39,37 @@ export interface TransferMetrics {
 export function getEffectiveSignalingUrl(custom?: string): string {
   if (custom && custom.trim()) {
     let url = custom.trim();
-    if (!url.startsWith('ws://') && !url.startsWith('wss://')) {
-      const proto = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+    if (url.startsWith('http://')) {
+      url = url.replace(/^http:\/\//, 'ws://');
+    } else if (url.startsWith('https://')) {
+      url = url.replace(/^https:\/\//, 'wss://');
+    } else if (!url.startsWith('ws://') && !url.startsWith('wss://')) {
+      const proto = typeof window !== 'undefined' && window.location.protocol === 'https:' ? 'wss://' : 'ws://';
       url = `${proto}${url}`;
     }
     return url;
   }
 
   const envUrl = (import.meta as any).env?.VITE_SIGNALING_URL;
-  if (envUrl) return envUrl;
+  if (envUrl && envUrl.trim()) return envUrl.trim();
 
-  const stored = localStorage.getItem('droply_server_url') || localStorage.getItem('direct_server_url');
+  const stored = typeof localStorage !== 'undefined'
+    ? localStorage.getItem('droply_server_url') || localStorage.getItem('direct_server_url')
+    : null;
   if (stored && stored.trim()) return stored.trim();
 
-  const loc = window.location;
-  const proto = loc.protocol === 'https:' ? 'wss:' : 'ws:';
-  return `${proto}//${loc.host}`;
+  // If on GitHub Pages and no custom server is configured, don't return a nonexistent wss://github.io URL
+  if (typeof window !== 'undefined' && window.location.hostname.endsWith('github.io')) {
+    return '';
+  }
+
+  if (typeof window !== 'undefined') {
+    const loc = window.location;
+    const proto = loc.protocol === 'https:' ? 'wss:' : 'ws:';
+    return `${proto}//${loc.host}`;
+  }
+
+  return 'ws://localhost:3000';
 }
 
 export function useTransfer() {
@@ -139,6 +154,16 @@ export function useTransfer() {
 
       // 2. Connect WebSocket
       const serverWsUrl = getEffectiveSignalingUrl(customServerUrl);
+      if (!serverWsUrl) {
+        throw new Error(
+          'No signaling server configured. GitHub Pages is a static host and requires a secure signaling server (wss://). Click the Settings (⚙) icon in the top right to configure your endpoint, or run "droply serve" locally.'
+        );
+      }
+      if (typeof window !== 'undefined' && window.location.protocol === 'https:' && serverWsUrl.startsWith('ws://')) {
+        throw new Error(
+          `Insecure WebSocket (${serverWsUrl}) is blocked on HTTPS pages by browser Mixed Content security. Please configure a secure "wss://" endpoint with SSL, or access Droply over HTTP.`
+        );
+      }
       const ws = new WebSocket(serverWsUrl);
       wsRef.current = ws;
 
@@ -279,6 +304,16 @@ export function useTransfer() {
       setPairingCode(code);
 
       const serverWsUrl = getEffectiveSignalingUrl(customServerUrl);
+      if (!serverWsUrl) {
+        throw new Error(
+          'No signaling server configured. GitHub Pages is a static host and requires a secure signaling server (wss://). Click the Settings (⚙) icon in the top right to configure your endpoint, or run "droply serve" locally.'
+        );
+      }
+      if (typeof window !== 'undefined' && window.location.protocol === 'https:' && serverWsUrl.startsWith('ws://')) {
+        throw new Error(
+          `Insecure WebSocket (${serverWsUrl}) is blocked on HTTPS pages by browser Mixed Content security. Please configure a secure "wss://" endpoint with SSL, or access Droply over HTTP.`
+        );
+      }
       const ws = new WebSocket(serverWsUrl);
       wsRef.current = ws;
 
