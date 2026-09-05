@@ -21,10 +21,8 @@
 
 - [Features](#-features)
 - [Installation & Setup](#-installation--setup)
-  - [1. Standalone Native Binaries (No Node.js Required)](#1-standalone-native-binaries-recommended)
-  - [2. Using npm / npx](#2-using-npm--npx)
-  - [3. Using Docker](#3-using-docker)
-  - [4. Build from Source](#4-build-from-source)
+  - [1. One-Line Shell Installer](#1-one-line-shell-installer-linux--macos)
+  - [2. Using npm / npx](#2-using-npm--npx-universal-package-manager)
 - [Usage Guide](#-usage-guide)
   - [Sending Files & Folders](#sending-files--folders)
   - [Receiving Files](#receiving-files)
@@ -32,7 +30,6 @@
 - [Self-Hosting & Deployment](#-self-hosting--deployment)
   - [Deploy on Render (Full Unified App)](#deploy-on-render-full-unified-app)
   - [Self-Host with Docker Compose](#self-host-with-docker-compose)
-- [How to Publish to npm](#-how-to-publish-to-npm)
 - [CLI Command Reference](#-cli-command-reference)
 - [Security & Architecture](#-security--architecture)
 - [License](#-license)
@@ -63,15 +60,7 @@ curl -fsSL https://raw.githubusercontent.com/alsabur20/droply/main/install.sh | 
 
 ---
 
-### 2. Using Homebrew (macOS & Linux)
-You can install the Droply binary via Homebrew:
-```bash
-brew install alsabur20/tap/droply
-```
-
----
-
-### 3. Using npm / npx (Universal Package Manager)
+### 2. Using npm / npx (Universal Package Manager)
 
 #### Run instantly with `npx` (Zero install):
 ```bash
@@ -85,67 +74,9 @@ npx droply-cli receive 4-cosmic-falcon
 #### Install globally via `npm`:
 ```bash
 npm install -g droply-cli
-# or
-pnpm add -g droply-cli
 
 # The 'droply' command is now available globally:
 droply --help
-```
-
----
-
-### 4. Standalone Native Binaries & Archives (Direct Download)
-Pre-compiled single-file executables with **zero runtime dependencies** (no Node.js or npm required) are available on [GitHub Releases](https://github.com/alsabur20/droply/releases):
-
-| Platform | Architecture | Binary Download | Archive |
-| :--- | :--- | :--- | :--- |
-| **Linux** | x86_64 / x64 | [`droply-linux-x64`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64.zip) / [`.tar.gz`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64.tar.gz) |
-| **macOS** | Apple Silicon (M1/M2/M3/M4) | [`droply-macos-arm64`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-arm64) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-arm64.zip) / [`.tar.gz`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-arm64.tar.gz) |
-| **macOS** | Intel (x64) | [`droply-macos-x64`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-x64) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-x64.zip) / [`.tar.gz`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-x64.tar.gz) |
-| **Windows** | x64 | [`droply-windows-x64.exe`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-windows-x64.exe) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-windows-x64.zip) |
-
----
-
-### 5. Using Docker
-
-You can use Docker both to run CLI transfers and to host your private server.
-
-#### A. Run CLI transfers via Docker:
-```bash
-# Send a file from your current directory
-docker run --rm -it -v "$(pwd):/data" -w /data droply send /data/report.pdf
-
-# Receive files into your current directory
-docker run --rm -it -v "$(pwd):/data" -w /data droply receive 4-cosmic-falcon
-```
-
-#### B. Run the unified Server & Web UI container:
-```bash
-# Build the Docker image locally
-docker build -t droply .
-
-# Run the container (binds Web UI & WebSocket server to port 3000)
-docker run -d --name droply-server -p 3000:3000 droply
-```
-Access the web app at `http://localhost:3000`.
-
----
-
-### 4. Build from Source
-
-```bash
-# Clone repository
-git clone https://github.com/alsabur20/droply.git
-cd droply
-
-# Install workspace dependencies
-pnpm install
-
-# Build all packages (protocol, server, cli, web)
-pnpm build
-
-# Link CLI globally for development
-pnpm --filter droply exec chmod +x dist/bin/droply.js
 ```
 
 ---
@@ -233,34 +164,6 @@ docker compose up -d
 The service is available at `http://localhost:3000`.
 
 To expose it to the internet with your own domain, point your reverse proxy (Nginx, Caddy, or Traefik) to port 3000 with WebSocket upgrading enabled.
-
----
-
-## 📦 How to Publish to npm
-
-Droply CLI is configured as a standalone, zero-dependency package named `droply-cli`:
-
-### Step 1: Log in to npm
-```bash
-npm login
-```
-
-### Step 2: Build & Publish
-```bash
-# Build the entire monorepo
-pnpm build
-
-# Navigate to the CLI package and publish
-cd packages/cli
-npm publish --access public
-```
-
-Once published, anyone can immediately run:
-```bash
-npx droply-cli send <file>
-# or
-npm install -g droply-cli
-```
 
 ---
 
