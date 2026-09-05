@@ -55,31 +55,25 @@
 
 Choose your preferred way to install and run Droply:
 
-### 1. Standalone Native Binaries (Recommended)
-Pre-compiled single-file executables with **zero runtime dependencies** (no Node.js or npm required) are available on [GitHub Releases](https://github.com/alsabur20/droply/releases):
-
-| Platform | Architecture | Binary Download | Archive |
-| :--- | :--- | :--- | :--- |
-| **Linux** | x86_64 / x64 | [`droply-linux-x64`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64.zip) / [`.tar.gz`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64.tar.gz) |
-| **macOS** | Apple Silicon (M1/M2/M3/M4) | [`droply-macos-arm64`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-arm64) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-arm64.zip) / [`.tar.gz`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-arm64.tar.gz) |
-| **macOS** | Intel (x64) | [`droply-macos-x64`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-x64) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-x64.zip) |
-| **Windows** | x64 | [`droply-windows-x64.exe`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-windows-x64.exe) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-windows-x64.zip) |
-
-#### Quick Install (Linux / macOS):
+### 1. One-Line Shell Installer (Linux & macOS)
+Install the pre-compiled native binary directly to `/usr/local/bin` in one command:
 ```bash
-# Download binary directly to /usr/local/bin
-sudo curl -Lo /usr/local/bin/droply https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64
-sudo chmod +x /usr/local/bin/droply
-
-# Verify installation
-droply --help
+curl -fsSL https://raw.githubusercontent.com/alsabur20/droply/main/install.sh | bash
 ```
 
 ---
 
-### 2. Using npm / npx
+### 2. Using Homebrew (macOS & Linux)
+You can install the Droply binary via Homebrew:
+```bash
+brew install alsabur20/tap/droply
+```
 
-#### Run instantly with `npx` (No permanent installation):
+---
+
+### 3. Using npm / npx (Universal Package Manager)
+
+#### Run instantly with `npx` (Zero install):
 ```bash
 # Send a file
 npx droply send document.pdf
@@ -97,7 +91,19 @@ pnpm add -g droply
 
 ---
 
-### 3. Using Docker
+### 4. Standalone Native Binaries & Archives (Direct Download)
+Pre-compiled single-file executables with **zero runtime dependencies** (no Node.js or npm required) are available on [GitHub Releases](https://github.com/alsabur20/droply/releases):
+
+| Platform | Architecture | Binary Download | Archive |
+| :--- | :--- | :--- | :--- |
+| **Linux** | x86_64 / x64 | [`droply-linux-x64`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64.zip) / [`.tar.gz`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-linux-x64.tar.gz) |
+| **macOS** | Apple Silicon (M1/M2/M3/M4) | [`droply-macos-arm64`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-arm64) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-arm64.zip) / [`.tar.gz`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-arm64.tar.gz) |
+| **macOS** | Intel (x64) | [`droply-macos-x64`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-x64) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-x64.zip) / [`.tar.gz`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-macos-x64.tar.gz) |
+| **Windows** | x64 | [`droply-windows-x64.exe`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-windows-x64.exe) | [`.zip`](https://github.com/alsabur20/droply/releases/download/v1.0.0/droply-windows-x64.zip) |
+
+---
+
+### 5. Using Docker
 
 You can use Docker both to run CLI transfers and to host your private server.
 
