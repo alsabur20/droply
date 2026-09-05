@@ -45,22 +45,22 @@ export function ArchitectureCards() {
   };
 
   return (
-    <div className="w-full border border-zinc-300 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950 p-6 sm:p-8 space-y-6">
+    <div className="w-full border-2 border-zinc-300 dark:border-zinc-800 rounded-none bg-white dark:bg-zinc-950 p-6 sm:p-8 space-y-6 shadow-sm">
       {/* Header */}
-      <div className="space-y-1.5">
-        <p className="font-mono text-xs font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-500">
-          Notes & Architecture
+      <div className="space-y-1.5 font-mono">
+        <p className="text-xs font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400">
+          Architecture & Protocol
         </p>
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
-          <h2 className="text-2xl sm:text-3xl font-mono font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">
-            What happens after you press Send?
+          <h2 className="text-2xl sm:text-3xl font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">
+            How Droply Transmits Data Safely
           </h2>
-          <span className="font-mono text-xs text-zinc-500">
-            Plainspoken security guide
+          <span className="text-xs text-zinc-500 font-bold uppercase tracking-wider">
+            Zero-Knowledge Spec
           </span>
         </div>
-        <p className="font-mono text-xs text-zinc-500 dark:text-zinc-400 max-w-3xl leading-relaxed">
-          Plainspoken notes about the signaling relay, the memorable pairing code, and the ways browsers and terminals meet.
+        <p className="text-xs text-zinc-600 dark:text-zinc-400 max-w-3xl leading-relaxed">
+          Technical overview of the WebRTC data channel, ephemeral ECDH P-256 session keys, and authenticated AES-256-GCM chunk streaming.
         </p>
       </div>
 
@@ -74,15 +74,15 @@ export function ArchitectureCards() {
             <div
               key={note.number}
               onClick={() => toggleExpand(i)}
-              className={`p-5 rounded-lg border transition-all cursor-pointer flex flex-col justify-between select-none ${
+              className={`p-5 rounded-none border-2 transition-all cursor-pointer flex flex-col justify-between select-none ${
                 isExpanded
-                  ? 'border-zinc-500 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-900/90'
-                  : 'border-zinc-200 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-zinc-900/40 hover:border-zinc-400 dark:hover:border-zinc-700'
+                  ? 'border-zinc-950 dark:border-zinc-100 bg-zinc-100 dark:bg-zinc-900 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.9)]'
+                  : 'border-zinc-300 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/40 hover:border-zinc-950 dark:hover:border-zinc-400'
               }`}
             >
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-zinc-400 dark:text-zinc-500">
-                  <span className="font-mono text-xs font-bold">{note.number}</span>
+                <div className="flex items-center justify-between text-zinc-500">
+                  <span className="font-mono text-xs font-bold bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 px-1.5 py-0.5">{note.number}</span>
                   <div className="flex items-center gap-1 text-xs font-mono">
                     <Icon className="w-3.5 h-3.5" />
                     {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ArrowRight className="w-3.5 h-3.5" />}
@@ -98,8 +98,11 @@ export function ArchitectureCards() {
                 </p>
               </div>
 
-              <div className="pt-4 mt-2 border-t border-zinc-200/60 dark:border-zinc-800/60 font-mono text-[11px] text-zinc-400 dark:text-zinc-500">
-                {note.readTime}
+              <div className="pt-4 mt-3 border-t border-zinc-200 dark:border-zinc-800 font-mono text-[11px] text-zinc-500 flex items-center justify-between">
+                <span>{note.readTime}</span>
+                <span className="font-bold text-[10px] uppercase text-zinc-700 dark:text-zinc-300">
+                  {isExpanded ? 'Click to collapse' : 'Click to read'}
+                </span>
               </div>
             </div>
           );

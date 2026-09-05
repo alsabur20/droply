@@ -50,74 +50,47 @@ export function CliBanner() {
   }, []);
 
   return (
-    <div className="w-full border border-zinc-300 dark:border-zinc-800 rounded-xl bg-white dark:bg-zinc-950 p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div className="w-full border-2 border-zinc-300 dark:border-zinc-800 rounded-none bg-white dark:bg-zinc-950 p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-sm">
       {/* Left Text */}
-      <div className="space-y-1.5">
-        <p className="font-mono text-xs font-semibold uppercase tracking-widest text-zinc-500 dark:text-zinc-500">
-          Droply CLI
-        </p>
-        <h2 className="text-2xl sm:text-3xl font-mono font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">
-          Download droply for {detectedOs.name}.
+      <div className="space-y-2 font-mono">
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-widest bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 px-1.5 py-0.5 border border-zinc-400 dark:border-zinc-700">
+            Droply CLI
+          </span>
+          <span className="text-[11px] text-zinc-500">v1.0.0</span>
+        </div>
+        <h2 className="text-2xl sm:text-3xl font-bold text-zinc-950 dark:text-zinc-50 tracking-tight">
+          Install droply for {detectedOs.name}.
         </h2>
-        <p className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
-          Fast native terminal transfers without web browser overhead.
-        </p>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 pt-1 text-xs text-zinc-600 dark:text-zinc-400">
+          <span className="font-semibold text-zinc-900 dark:text-zinc-100">Via Terminal:</span>
+          <code className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 px-2 py-1 text-zinc-800 dark:text-zinc-200 select-all">
+            curl -fsSL https://raw.githubusercontent.com/alsabur20/droply/main/install.sh | bash
+          </code>
+        </div>
       </div>
 
       {/* Right Download Button & Platform list */}
-      <div className="flex flex-col items-start md:items-end gap-2.5">
+      <div className="flex flex-col items-start md:items-end gap-3 font-mono">
         <a
           href={detectedOs.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-3 px-5 py-3 rounded-lg bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-zinc-100 dark:text-zinc-950 font-mono transition-colors shadow-sm"
+          className="inline-flex items-center gap-3 px-5 py-3 rounded-none bg-zinc-950 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-zinc-50 dark:text-zinc-950 border-2 border-zinc-950 dark:border-zinc-100 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.9)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all"
         >
           <Download className="w-5 h-5 shrink-0" />
           <div className="text-left leading-tight">
-            <div className="text-xs font-bold">Download {VERSION}</div>
-            <div className="text-[11px] opacity-75">{detectedOs.name} - {detectedOs.arch}</div>
+            <div className="text-xs font-bold uppercase">Download {VERSION}</div>
+            <div className="text-[11px] opacity-80">{detectedOs.name} - {detectedOs.arch}</div>
           </div>
         </a>
 
-        {/* Secondary build links */}
-        <div className="flex flex-wrap items-center gap-2 font-mono text-[11px] text-zinc-500 dark:text-zinc-400">
-          <span>Other builds:</span>
-          <a
-            href={`${REPO_RELEASES}/download/${VERSION}/droply-linux-x64`}
-            className="hover:text-zinc-900 dark:hover:text-zinc-200 underline decoration-zinc-400 dark:decoration-zinc-700"
-          >
-            Linux x64
-          </a>
-          <span>·</span>
-          <a
-            href={`${REPO_RELEASES}/download/${VERSION}/droply-macos-arm64`}
-            className="hover:text-zinc-900 dark:hover:text-zinc-200 underline decoration-zinc-400 dark:decoration-zinc-700"
-          >
-            macOS arm64
-          </a>
-          <span>·</span>
-          <a
-            href={`${REPO_RELEASES}/download/${VERSION}/droply-macos-x64`}
-            className="hover:text-zinc-900 dark:hover:text-zinc-200 underline decoration-zinc-400 dark:decoration-zinc-700"
-          >
-            macOS x64
-          </a>
-          <span>·</span>
-          <a
-            href={`${REPO_RELEASES}/download/${VERSION}/droply-windows-x64.exe`}
-            className="hover:text-zinc-900 dark:hover:text-zinc-200 underline decoration-zinc-400 dark:decoration-zinc-700"
-          >
-            Windows x64
-          </a>
-          <span>·</span>
-          <a
-            href={REPO_RELEASES}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-zinc-900 dark:hover:text-zinc-200 font-semibold uppercase tracking-wide flex items-center gap-0.5"
-          >
-            All releases <ExternalLink className="w-2.5 h-2.5 ml-0.5 inline" />
-          </a>
+        {/* npm package link */}
+        <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+          <span>or:</span>
+          <code className="bg-zinc-100 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-800 px-1.5 py-0.5 text-zinc-900 dark:text-zinc-100 select-all font-bold">
+            npm i -g droply-cli
+          </code>
         </div>
       </div>
     </div>

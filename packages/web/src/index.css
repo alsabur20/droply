@@ -20,10 +20,10 @@
   }
 }
 
-/* Custom scrollbars matching minimalist terminal style */
+/* Custom scrollbars matching sharp terminal style */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -31,11 +31,30 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(161, 161, 170, 0.2);
-  border-radius: 9999px;
+  background: rgba(161, 161, 170, 0.3);
+  border-radius: 0px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(161, 161, 170, 0.4);
+  background: rgba(161, 161, 170, 0.6);
+}
+
+/* Neo-Brutalist Square tactile utility classes */
+@layer components {
+  .btn-tactile-dark {
+    @apply rounded-none border-2 border-zinc-950 bg-zinc-950 text-white font-mono font-bold transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none;
+  }
+  
+  .dark .btn-tactile-dark {
+    @apply border-2 border-zinc-100 bg-zinc-100 text-zinc-950 shadow-[3px_3px_0px_0px_rgba(255,255,255,0.9)] hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)];
+  }
+
+  .btn-tactile-outline {
+    @apply rounded-none border border-zinc-400 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 font-mono transition-all hover:border-zinc-950 dark:hover:border-zinc-100 hover:text-zinc-950 dark:hover:text-white;
+  }
+
+  .panel-square {
+    @apply rounded-none border-2 border-zinc-300 dark:border-zinc-800 bg-white dark:bg-zinc-950 transition-colors shadow-sm;
+  }
 }
 
