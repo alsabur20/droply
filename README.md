@@ -76,17 +76,20 @@ brew install alsabur20/tap/droply
 #### Run instantly with `npx` (Zero install):
 ```bash
 # Send a file
-npx droply send document.pdf
+npx droply-cli send document.pdf
 
 # Receive files
-npx droply receive 4-cosmic-falcon
+npx droply-cli receive 4-cosmic-falcon
 ```
 
 #### Install globally via `npm`:
 ```bash
-npm install -g droply
+npm install -g droply-cli
 # or
-pnpm add -g droply
+pnpm add -g droply-cli
+
+# The 'droply' command is now available globally:
+droply --help
 ```
 
 ---
@@ -235,23 +238,16 @@ To expose it to the internet with your own domain, point your reverse proxy (Ngi
 
 ## 📦 How to Publish to npm
 
-Droply CLI is configured as a standalone, zero-dependency package ready for publishing to npm:
+Droply CLI is configured as a standalone, zero-dependency package named `droply-cli`:
 
-### Step 1: Check Package Name Availability
-If `droply` is already registered on npmjs.com, you can either:
-- Use your scoped account: `@alsabur20/droply` (recommended)
-- Or an available package name: `droply-cli`
-
-To change the name, update `"name"` in [`packages/cli/package.json`](packages/cli/package.json).
-
-### Step 2: Log in to npm
+### Step 1: Log in to npm
 ```bash
 npm login
 ```
 
-### Step 3: Build & Publish
+### Step 2: Build & Publish
 ```bash
-# From repository root, build all packages
+# Build the entire monorepo
 pnpm build
 
 # Navigate to the CLI package and publish
@@ -261,9 +257,9 @@ npm publish --access public
 
 Once published, anyone can immediately run:
 ```bash
-npx droply send <file>
+npx droply-cli send <file>
 # or
-npm install -g droply
+npm install -g droply-cli
 ```
 
 ---

@@ -1,9 +1,10 @@
 {
-  "name": "droply",
+  "name": "droply-cli",
   "version": "1.0.0",
   "description": "Droply — Zero-Knowledge, End-to-End Encrypted P2P File Transfer CLI",
   "bin": {
-    "droply": "./dist/bin/droply.js"
+    "droply": "./dist/bin/droply.js",
+    "droply-cli": "./dist/bin/droply.js"
   },
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",
