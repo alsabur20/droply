@@ -21,7 +21,7 @@
 - 🛡️ **Safe Consent Mode**: Interactive preview of file manifest (names, types, sizes) before downloading to prevent unsolicited files.
 - 🔄 **Resilient Connectivity**: Direct WebRTC P2P (via public STUN) with automatic, transparent end-to-end encrypted relay fallback through the signaling server.
 - 🖥️ **Standalone Native Binaries & Zips**: Pre-compiled single-file executables and `.zip` / `.tar.gz` archives for Linux, macOS (Apple Silicon), and Windows with zero runtime dependencies.
-- 📄 **GitHub Pages Ready**: Static React Web UI can be hosted directly on GitHub Pages with configurable signaling endpoints.
+- ☁️ **Full-App Cloud Ready**: Deploy as a single unified service on Render, Railway, Fly.io, or VPS with automatic SSL and zero configuration.
 - 🐳 **Self-Host Ready**: Bundled single-process signaling and static Web UI server with 1-command Docker Compose deployment.
 
 ---
@@ -62,15 +62,23 @@ droply receive 4-cosmic-falcon
 droply receive 4-cosmic-falcon --yes --output-dir ./downloads
 ```
 
-### 3. Self-Hosting with Docker Compose
+### 3. Full App Deployment (Render / Cloud / Docker)
 
-Spin up your private signaling and Web UI server in seconds:
+#### Option A: Deploy on Render as a Web Service (Free Tier)
+Deploy the full unified app (Web UI + Signaling Server) to [Render](https://render.com) in 1 minute:
+1. Log in to [Render](https://render.com) and click **New +** > **Web Service**.
+2. Connect your GitHub repository (`alsabur20/droply`).
+3. Select **Docker** as the Runtime and choose the **Free** plan.
+4. Click **Create Web Service**.
 
+Your app is immediately live at `https://<service-name>.onrender.com` with free automatic SSL, hosting both the Web UI and the WebSocket relay on the exact same domain with zero configuration.
+
+#### Option B: Self-Host with Docker Compose
+Spin up your private signaling and Web UI server locally or on a VPS:
 ```bash
 docker compose up -d
 ```
-
-Open `http://localhost:3000` in your browser. The Web UI and signaling engine are served simultaneously on the same port!
+Open `http://localhost:3000` in your browser. The Web UI and signaling engine run simultaneously on the same port!
 
 ---
 

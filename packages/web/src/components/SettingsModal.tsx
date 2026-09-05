@@ -12,7 +12,6 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
   const [saved, setSaved] = useState(false);
 
   const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
-  const isGithubPages = typeof window !== 'undefined' && window.location.hostname.includes('github.io');
   const effective = getEffectiveSignalingUrl(serverUrl);
   const isMixedContent = isHttps && (serverUrl.trim().startsWith('ws://') || (!serverUrl.trim() && effective.startsWith('ws://')));
 
@@ -72,11 +71,6 @@ export function SettingsModal({ onClose }: SettingsModalProps) {
           </div>
         </div>
 
-        {isGithubPages && !effective && (
-          <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-300 leading-relaxed">
-            <strong>GitHub Pages Notice:</strong> GitHub Pages only serves static files and has no backend server. Enter your deployed signaling server URL (e.g. <code className="font-mono bg-amber-950/50 px-1 py-0.5 rounded">wss://droply.yourdomain.com</code>) to connect peers.
-          </div>
-        )}
 
         {isMixedContent && (
           <div className="p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-300 leading-relaxed flex items-start gap-2">

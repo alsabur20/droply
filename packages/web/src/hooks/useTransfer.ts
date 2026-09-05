@@ -58,11 +58,6 @@ export function getEffectiveSignalingUrl(custom?: string): string {
     : null;
   if (stored && stored.trim()) return stored.trim();
 
-  // If on GitHub Pages and no custom server is configured, don't return a nonexistent wss://github.io URL
-  if (typeof window !== 'undefined' && window.location.hostname.endsWith('github.io')) {
-    return '';
-  }
-
   if (typeof window !== 'undefined') {
     const loc = window.location;
     const proto = loc.protocol === 'https:' ? 'wss:' : 'ws:';
